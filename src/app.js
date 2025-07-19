@@ -1,22 +1,40 @@
 const express = require("express");
-
 const app = express();
-app.use(express.json());
 
-const todos = []
+app.use(express.json())
 
-app.post("/todos",(req,res)=>{
-    console.log(req.body)
-    todos.push(req.body)
+let todo = [];
+let todoCount = 1;
+
+app.post('/todo',(req,res)=>{
+    const{task, completed} = req.body;
+    console.log(req.body);
+
+    if(!task){
+        return res.status(400).json({
+            message: "task is required",
+        });
+    }
+
+    const newtodo = {
+       id: todoCount++,
+       task,
+       completed
+    }
+
+    
+
+    todo.push(newtodo);
     res.status(201).json({
-        message:"task added successfully"
+        message:"task is added",
+        todo: newtodo
     })
 })
 
-app.get("/todos", (req, res)=>{
+app.get("/todo", (req,res)=>{
     res.status(200).json({
-        message:"task fetched successfully",
-        todos
+        message:"task fetch successfully",
+        todo
     })
 })
 

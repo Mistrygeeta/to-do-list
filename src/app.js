@@ -63,4 +63,20 @@ app.patch("/todo/:id", (req,res)=>{
     })
 })
 
+app.delete("/todo/:id", (req, res)=>{
+    const id = parseInt(req.params.id)
+    const index = todo.findIndex(item=> item.id === id)
+
+    if(index === -1){
+        return res.status(404).json({
+            message :" task not found"
+        })
+    }
+
+    const deletetodo = todo.splice(index, 1)[0]
+    res.status(200).json({
+        message :" task deleted successfully",
+        todo : deletetodo
+    })
+})
 module.exports = app;
